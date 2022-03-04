@@ -14,12 +14,11 @@ from funcionarios.models import Funcionario
 
 #@login_required
 def home(request):
+    #Pegas informacoes do usuario
     data = {}
     data['usuario'] =  request.user
-    context = {
-        'data': data,
-    }
-    return render(request, "core/index.html", context)
+
+    return render(request, "core/index.html", data)
 
 def logar(request):
     if request.method == 'GET':

@@ -30,16 +30,24 @@
           </a>
 
           {% if user.is_authenticated %}
-          <p class="usuario">Usuário: <span class="text-success"> {{ user.username }}</span></p>
+          <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
+            {{ usuario.funcionario.sobrenome }}
+          </span></p>
           {% endif %}
 
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active">
 	            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
 	            <ul class="collapse list-unstyled" id="homeSubmenu">
-                <li>
-                    <a href="#">Home 1</a>
-                </li>
+                {% if usuario.funcionado.empresa %}
+                  <li>
+                      <a href="#">Editar empresa</a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a href="#">Criar empresa</a>
+                  </li>
+                {% endif %}
                 <li>
                     <a href="#">Home 2</a>
                 </li>

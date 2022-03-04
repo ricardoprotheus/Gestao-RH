@@ -11,7 +11,7 @@ class Funcionario(models.Model):
     #Criar user junto ao cadastro(protegido) USUARIO UNICO PARA UM FUNCIONARIO
     user = models.OneToOneField(User, on_delete=models.PROTECT) 
     departamentos = models.ManyToManyField(Departamento)
-    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=True, blank=True)
     foto_funcionatio = models.ImageField(upload_to=nome)
 
     class Meta:
