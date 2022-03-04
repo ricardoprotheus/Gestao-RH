@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render,redirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib import messages
@@ -9,9 +10,16 @@ from django.contrib import auth
 from django.contrib import messages
 from django.contrib.messages import constants
 
+from funcionarios.models import Funcionario
+
 #@login_required
 def home(request):
-    return render(request, "core/index.html")
+    data = {}
+    data['usuario'] =  request.user
+    context = {
+        'data': data,
+    }
+    return render(request, "core/index.html", context)
 
 def logar(request):
     if request.method == 'GET':
