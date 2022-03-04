@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
+from .models import Empresa
 
-# Create your views here.
+class EmpresaCreate(CreateView):
+    model = Empresa
+    fields = ['nome', ]
