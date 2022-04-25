@@ -37,17 +37,17 @@
           <p>{{ usuario.funcionario.sobrenome }}</p>
           {% endif %}
 
-	        <ul class="list-unstyled components mb-5">
-	          <li class="active">
-	            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-	            <ul class="collapse list-unstyled" id="homeSubmenu">
+          <ul class="list-unstyled components mb-5">
+            <li class="active">
+              <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+              <ul class="collapse list-unstyled" id="homeSubmenu">
                 {% if usuario.funcionado.empresa %}
                   <li>
                       <a href="#">Editar empresa</a>
                   </li>
                 {% else %}
                   <li>
-                    <a href="#">Criar empresa</a>
+                    <a href="{% url 'create_empresa' %}">Criar empresa</a>
                   </li>
                 {% endif %}
                 <li>
@@ -56,12 +56,12 @@
                 <li>
                     <a href="#">Home 3</a>
                 </li>
-	            </ul>
-	          </li>
-	          <li>
-	              <a href="#">Funcionários</a>
-	          </li>
-	          <li>
+              </ul>
+            </li>
+            <li>
+                <a href="#">Funcionários</a>
+            </li>
+            <li>
               <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Opções</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">
                 <li>
