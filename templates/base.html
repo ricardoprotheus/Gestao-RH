@@ -25,7 +25,7 @@
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
-		  		<a href="{% url 'login' %}" >
+		  		<a href="{% url 'home' %}" >
             <img class="img logo rounded-circle mb-5" src="{% static 'images/img.png' %}" alt="">
           </a>
 
@@ -41,20 +41,23 @@
             <li class="active">
               <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
               <ul class="collapse list-unstyled" id="homeSubmenu">
-                {% if usuario.funcionado.empresa %}
+                {% if usuario.funcionario.empresa %}
                   <li>
-                      <a href="#">Editar empresa</a>
+                      <a href="{% url 'edit_empresa' usuario.funcionario.empresa.id %}">Editar empresa</a>
                   </li>
-                {% else %}
                   <li>
-                    <a href="{% url 'create_empresa' %}">Criar empresa</a>
+                    <a href="#">Editar perfil</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'list_funcionarios' %}">Gerenciar funcionario</a>
+                  </li>
+                {% elif not usuario.funcionario.empresa  %}
+                  <li>
+                    <a href="{% url 'create_empresa' %}">Cadastrar empresa</a>
                   </li>
                 {% endif %}
                 <li>
-                    <a href="#">Home 2</a>
-                </li>
-                <li>
-                    <a href="#">Home 3</a>
+                    <a href="#">Outros</a>
                 </li>
               </ul>
             </li>

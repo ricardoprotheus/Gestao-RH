@@ -5,7 +5,13 @@
   {% block main %}
     
         <div class="container-fluid">
-            <p>Olá {{ usuario.funcionario.nome }}</p>
+            {% if user.is_authenticated %}
+                <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
+                {{ usuario.funcionario.sobrenome }}
+                </span></p>
+            {% else %}
+                <p>{{ usuario.funcionario.sobrenome }}</p>
+            {% endif %}
             <h2 class="mb-4">Inicio</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris

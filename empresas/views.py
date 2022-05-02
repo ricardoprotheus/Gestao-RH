@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 # Alertas de messagens
 from django.contrib import messages
@@ -18,3 +18,7 @@ class EmpresaCreate(CreateView):
         funcionario.empresa = obj
         funcionario.save()
         return HttpResponse('OK')
+
+class EmpresaEdit(UpdateView):
+    model = Empresa
+    fields = ['nome', ]
