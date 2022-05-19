@@ -57,13 +57,19 @@
                   </li>
                 {% endif %}
                 <li>
+                  <a href="{% url 'create_funcionario' %}">Cadastrar funcionário</a>
+              </li>
+                <li>
                     <a href="#">Outros</a>
                 </li>
               </ul>
             </li>
             <li>
-                <a href="#">Funcionários</a>
+                <a href="{% url 'list_funcionarios' %}">Funcionários</a>
             </li>
+            <li>
+              <a href="{% url 'list_departamento' %}">Departamentos</a>
+          </li>
             <li>
               <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Opções</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">

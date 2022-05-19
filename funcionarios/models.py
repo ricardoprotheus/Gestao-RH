@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from departamentos.models import Departamento
 from empresas.models import Empresa
+from django.urls import reverse
+
 
 class Funcionario(models.Model):
     nome = models.CharField(max_length=100, help_text="Nome do funcionário")
@@ -13,6 +15,10 @@ class Funcionario(models.Model):
     departamentos = models.ManyToManyField(Departamento)
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=True, blank=True)
     foto_funcionatio = models.ImageField(upload_to=nome, null=True, blank=True)
+
+    # Apos o formulario ser validado, vai redirecionar para a pagina abaixo
+    def get_absolute_url(self):
+        return reverse('list_funcionarios')
 
     class Meta:
         verbose_name = 'Funcionario'

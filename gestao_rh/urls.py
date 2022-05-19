@@ -10,6 +10,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('apps.core.urls')),
     path('funcionarios/', include('funcionarios.urls')),
+    path('departamentos/', include('departamentos.urls')),
+    path('documentos/', include('documentos.urls')),
     path('empresa/', include('empresas.urls')),
 ]
 # Para carregar STATIC e as MIDIAS
