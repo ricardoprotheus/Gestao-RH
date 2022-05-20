@@ -8,8 +8,8 @@ class DocumentoCreate(CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
-        print(dir(form.instance))
-        form.instance.pertence_id = self.kwargs('funcionario_id')
+        print(form.instance.pertence_id)
+        form.instance.pertence_id = self.kwargs['funcionario_id']
         
 
         if form.is_valid():
