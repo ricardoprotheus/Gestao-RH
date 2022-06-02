@@ -16,7 +16,7 @@
     <script src="{% static 'js/modal-login.js' %}"></script>
  
     
-    <title>{% block title %} Gestão RH {% endblock %}</title>
+    <title>Gestão RH - {% block title %} {% endblock %}</title>
     
 </head>
 <body>
@@ -31,7 +31,7 @@
 
           {% if user.is_authenticated %}
           <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
-            {{ usuario.funcionario.sobrenome }}
+            {{ user.funcionario.sobrenome }}
           </span></p>
           {% else %}
           <p>{{ usuario.funcionario.sobrenome }}</p>
@@ -41,9 +41,9 @@
             <li class="active">
               <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
               <ul class="collapse list-unstyled" id="homeSubmenu">
-                {% if usuario.funcionario.empresa %}
+                {% if user.funcionario.empresa %}
                   <li>
-                      <a href="{% url 'edit_empresa' usuario.funcionario.empresa.id %}">Editar empresa</a>
+                      <a href="{% url 'edit_empresa' user.funcionario.empresa.id %}">Editar empresa</a>
                   </li>
                   <li>
                     <a href="#">Editar perfil</a>
@@ -60,7 +60,7 @@
                   <a href="{% url 'create_funcionario' %}">Cadastrar funcionário</a>
               </li>
                 <li>
-                    <a href="#">Outros</a>
+                    <a href="{% url 'list_horas_extra' %}">Banco de horas</a>
                 </li>
               </ul>
             </li>
