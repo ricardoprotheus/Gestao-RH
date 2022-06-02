@@ -13,7 +13,11 @@
     <div class="col-md" style="align-items: center; padding-top: 15px;">
         <a href="{% url 'create_funcionario' %}" class="btn btn-outline-success" style="float: right; font-size: 18px;">Cadastrar Departamento</a>
     </div>
-        <table class="table table-bordered">
+    <div class="col-md" style="align-items: center; padding-top: 15px;">
+      <a href="{% url 'export_data' %}" class="btn btn-primary" style="float: right; font-size: 18px; margin: 0px 10px;">Exportar</a>
+      <a href="{% url 'import_data' %}" class="btn btn-success" style="float: right; font-size: 18px;">Importar</a>
+    </div>    
+    <table class="table table-bordered">
             <thead>
               <tr>
                 <th scope="col">id</th>
