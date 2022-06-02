@@ -1,6 +1,7 @@
 from pathlib import Path
-import os
-import sys
+import os, sys
+from django.contrib.messages import constants
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,10 +17,8 @@ SECRET_KEY = 'django-insecure-#s9q-o0k4-dsl2+l5+7snwa9#0s-+^d!-(p_t^7u5jm5tyz(^e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
-# Aplicações do sistema
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,7 +34,7 @@ INSTALLED_APPS = [
 sys.path.append(
     os.path.join(BASE_DIR, "apps")
 )
-# APPS CRIADAS E INSTALADAS
+
 INSTALLED_APPS += [
     'empresas',
     'funcionarios',
@@ -44,7 +43,8 @@ INSTALLED_APPS += [
     'registro_hora_extra',
     'core',
     
-    'bootstrap5'
+    'bootstrap5',
+    'import_export'
 ]
 
 
@@ -129,9 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'staticfiles'),
 ]
 
 
@@ -142,6 +142,16 @@ MEDIA_URL = "/media/"
 
 # Após fazer o login , redirecionar para a pagina home
 LOGIN_REDIRECT_URL  = 'home'
+
+LOGOUT_REDIRECT_URL  = 'login'
+
+MESSAGE_TAGS = {
+constants.DEBUG: 'alert-primary',
+constants.ERROR: 'alert-danger',
+constants.SUCCESS: 'alert-success',
+constants.INFO: 'alert-info',
+constants.WARNING: 'alert-warning',
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

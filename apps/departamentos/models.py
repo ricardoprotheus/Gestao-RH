@@ -1,4 +1,3 @@
-from audioop import reverse
 from django.db import models
 from empresas.models import Empresa
 from django.urls import reverse

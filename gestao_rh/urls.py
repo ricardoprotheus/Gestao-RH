@@ -12,6 +12,7 @@ urlpatterns = [
     path('funcionarios/', include('funcionarios.urls')),
     path('departamentos/', include('departamentos.urls')),
     path('documentos/', include('documentos.urls')),
+    path('horas-extras/', include('registro_hora_extra.urls')),
     path('empresa/', include('empresas.urls')),
 ]
 # Para carregar STATIC e as MIDIAS
