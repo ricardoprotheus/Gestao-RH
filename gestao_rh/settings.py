@@ -1,6 +1,7 @@
 from pathlib import Path
-import os
-import sys
+import os, sys
+from django.contrib.messages import constants
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,7 @@ INSTALLED_APPS += [
     'registro_hora_extra',
     'core',
     
-    'bootstrap5'
+    'bootstrap5',
 ]
 
 
@@ -142,6 +143,14 @@ MEDIA_URL = "/media/"
 LOGIN_REDIRECT_URL  = 'home'
 
 LOGOUT_REDIRECT_URL  = 'login'
+
+MESSAGE_TAGS = {
+constants.DEBUG: 'alert-primary',
+constants.ERROR: 'alert-danger',
+constants.SUCCESS: 'alert-success',
+constants.INFO: 'alert-info',
+constants.WARNING: 'alert-warning',
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

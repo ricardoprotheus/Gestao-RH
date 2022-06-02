@@ -1,5 +1,5 @@
-from pyexpat import model
 from django.db import models
+from django.urls import reverse
 from funcionarios.models import Funcionario
 
 class RegistroHoraExtra(models.Model):
@@ -7,6 +7,9 @@ class RegistroHoraExtra(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
     horas = models.DecimalField(max_digits=5, decimal_places=2)
 
+    #Quando editar informações ele retorna para update_hora_extra, passando o id
+    def get_absolute_url(self):
+        return reverse('update_hora_extra', args=[self.id])
 
     def __str__(self):
         return self.motivo
