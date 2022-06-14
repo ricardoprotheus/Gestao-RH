@@ -43,7 +43,15 @@ class HoraExtraList(ListView):
 class HoraExtraUpdate(UpdateView):
     template_name = 'registro_hora_extra/registrohoraextra_form.html'
     model = RegistroHoraExtra
-    fields = ['motivo', 'funcionario', 'horas']
+    form_class = HoraExtraForm
+    success_url = reverse_lazy('list_horas_extra')
+
+    # Injetar usuario logado para entro do Form(HoraExtraUpdate)
+    # Mostrar apenas usuarios da empresa logada
+    def get_form_kwargs(self):
+        Kwargs = super(HoraExtraUpdate, self).get_form_kwargs()
+        Kwargs.update({'user': self.request.user})
+        return Kwargs
 
     def form_invalid(self, form):
         print("form invalidod")
@@ -66,3 +74,4 @@ class HoraExtraDelete(SuccessMessageMixin, DeleteView):
         if self.get_success_url():
             messages.success(self.request, self.success_message)
             return super(HoraExtraDelete, self).delete(request, *args, **kwargs)
+
