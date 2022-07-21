@@ -1,4 +1,5 @@
 {% load static %}
+{% load customfilter %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -14,14 +15,41 @@
 
     <link rel="stylesheet" href="{% static 'css/modal-login.css' %}">
     <script src="{% static 'js/modal-login.js' %}"></script>
+
+    <!--Modelos de CPF, CNPJ e Data-->
+    <script  src="{% static 'js/cpf_cnpj_telefone.js' %}"></script>
+
+    <!-- DEPENDENCIAS DO QRCODE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'ponto_qrcode/assets/default/css/style.css' %}">
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'ponto_qrcode/assets/default/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'ponto_qrcode/assets/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'ponto_qrcode/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ponto_qrcode/assets/default/js/script.js' %}"></script>
  
     
     <title>Gestão RH - {% block title %} {% endblock %}</title>
-    
+
+    <style>
+      .modal-sub-footer {
+          display: flex;
+          flex-wrap: wrap;
+          flex-shrink: 0;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 0.75rem;
+          border-top: 1px solid #dee2e6;
+          border-bottom-right-radius: calc(0.3rem - 1px);
+          border-bottom-left-radius: calc(0.3rem - 1px);
+      }
+  </style>
+    {% block headerContent %} {% endblock headerContent %}
 </head>
 <body>
 
-    
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
@@ -30,11 +58,11 @@
           </a>
 
           {% if user.is_authenticated %}
-          <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
-            {{ user.funcionario.sobrenome }}
-          </span></p>
+            <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
+              {{ user.funcionario.sobrenome }}
+            </span></p>
           {% else %}
-          <p>{{ usuario.funcionario.sobrenome }}</p>
+            <p>{{ usuario.funcionario.sobrenome }}</p>
           {% endif %}
 
           <ul class="list-unstyled components mb-5">
@@ -58,20 +86,23 @@
                 {% endif %}
                 <li>
                   <a href="{% url 'create_funcionario' %}">Cadastrar funcionário</a>
-              </li>
+                </li>
                 <li>
                     <a href="{% url 'list_horas_extra' %}">Banco de horas</a>
                 </li>
               </ul>
-            </li>
-            <li>
-                <a href="{% url 'list_funcionarios' %}">Funcionários</a>
-            </li>
-            <li>
-              <a href="{% url 'list_departamento' %}">Departamentos</a>
-          </li>
-            <li>
-              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Opções</a>
+              </li>
+              <li>
+                  <a href="{% url 'list_funcionarios' %}">Funcionários</a>
+              </li>
+              <li>
+                <a href="{% url 'list_departamento' %}">Departamentos</a>
+              </li>
+              <li>
+                <a id="scanner-link" aria-current="page" href="javascript:void(0)" data_url="{% url 'view-scanner' %}">Busar por Qr Code</a>
+              </li>
+              <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Opções</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">
                 <li>
                     <a href="#">Page 1</a>
@@ -147,11 +178,13 @@
             </div>
           </div>
         </nav>
+        {% include 'message-alert.html' %}
 
         {% block main %} {% endblock %}
     </div>
 </div>
 
+{% block ScriptBlock %} {% endblock ScriptBlock %}
 
 <!-- MODAL DE LOGIN ---------------------------------------->
 <input type="checkbox" name="dialog_state" id="dialog_state" class="dialog_state">
@@ -187,7 +220,7 @@
         </button>
         
         <div class='button'><i class="icon ion-ios-close-empty">
-        </i> No, I'll reconsider</div>
+        </i> Cancelar</div>
         <br>
         
       </form>
@@ -196,11 +229,152 @@
   </div>
 </div>
 <!-- FIM DO MODAL DE LOGIN ---------------------------------------->
-  
 
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/popper.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+<div class="modal fade" id="uni_modal" role='dialog'>
+    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header"style="justify-content: center; display: flex;">
+                <h5 >Detalhes do funcionário</h5>
+                {% include 'message-alert.html' %}
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-sm btn-flat btn-primary rounded-0" id='submit' onclick="$('#uni_modal form').submit()">Salvar</button>
+                <button type="button" class="btn btn-sm btn-flat btn-light border rounded-0" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+            <div class="modal-sub-footer">
+                <button type="button" class="btn btn-sm btn-flat btn-light border rounded-0" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirm_modal" role='dialog'>
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmação</h5>
+            </div>
+            <div class="modal-body">
+                <div id="delete_content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-flat btn-primary rounded-0" id='confirm' onclick="">Continuar</button>
+                <button type="button" class="btn btn-sm btn-flat btn-light border rounded-0" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  const loader = $('<div>')
+  loader.attr('id', 'pre-loader')
+  loader.html('<div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>')
+
+  window.start_loader = function() {
+      $('body').removeClass('loading')
+      if ($('#pre-loader').length > 0)
+          $('#pre-loader').remove();
+      $('body').append(loader)
+      $('body').addClass('loading')
+  }
+  window.end_loader = function() {
+      if ($('#pre-loader').length > 0)
+          $('#pre-loader').remove();
+      $('body').removeClass('loading')
+  }
+  window.uni_modal = function($title = '', $url = '', $size = "") {
+      start_loader()
+      $.ajax({
+          url: $url,
+          error: err => {
+              console.log()
+              alert("Um erro ocorreu 1")
+          },
+          success: function(resp) {
+              if (resp) {
+                  $('#uni_modal #modal-title').html($title)
+                  $('#uni_modal .modal-body').html(resp)
+                  if ($size != '') {
+                      $('#uni_modal .modal-dialog').addClass($size + '  modal-dialog-centered')
+                  } else {
+                      $('#uni_modal .modal-dialog').removeAttr("class").addClass("modal-dialog modal-md modal-dialog-centered")
+                  }
+                  $('#uni_modal').modal({
+                      backdrop: 'static',
+                      keyboard: false,
+                      focus: true
+                  })
+                  $('#uni_modal').modal('show')
+                  end_loader()
+              }
+          }
+      })
+  }
+  window._conf = function($msg = '', $func = '', $params = []) {
+      $('#confirm_modal #confirm').attr('onclick', $func + "(" + $params.join(',') + ")")
+      $('#confirm_modal .modal-body').html($msg)
+      $('#confirm_modal').modal('show')
+  }
+  
+  $(function() {
+      $('#uni_modal').on('shown.bs.modal', function() {
+          if ($('#e-details').length > 0) {
+              var delete_btn = $('<button id="delete-btn" class="btn btn-danger btn-sm bg-gradient rounded-0 me-2"><i class="fa fa-trash"></i> Delete</button>')
+              var edit_btn = $('<a id="edit-btn" href="' + emp_edit_url + '" class="btn btn-primary btn-sm bg-gradient rounded-0 me-2"><i class="fa fa-edit"></i> Edit</a>')
+              $(this).find('.modal-sub-footer').prepend(delete_btn)
+              $(this).find('.modal-sub-footer').prepend(edit_btn)
+              delete_btn.click(function() {
+                  _conf("Tem certeza de que deseja excluir este funcionário?", "delete_employee")
+              })
+
+              $('#uni_modal').on('hide.bs.modal', function() {
+                  delete_btn.remove()
+                  edit_btn.remove()
+              })
+
+          }
+      })
+  })
+
+  function delete_employee() {
+      start_loader()
+      $.ajax({
+          url: emp_delete_url,
+          error: err => {
+              console.error(err)
+              alert("Um erro ocorreu (Delete).")
+              end_loader()
+          },
+          success: function(resp) {
+              if (resp.status == 'success') {
+                  location.reload()
+              } else if (!!resp.msg) {
+                  alert(resp.msg)
+              }
+              end_loader()
+          }
+      })
+  }
+</script>
+
+<script>
+  $(function() {
+      $('#topNav .nav-link').each(function() {
+          var current = '{{ request.get_full_path | urlencode }}'
+          if (current == $(this).attr('href')) {
+              $(this).parent().addClass('active')
+          }
+      })
+      $('#scanner-link').click(function(){
+          uni_modal("QR Scanner", $(this).attr('data_url'))
+      })
+  })
+</script>
+
+<script  src="{% static 'js/modal-login.js' %}"></script>
+<script  src="{% static 'js/bootstrap.min.js' %}"></script>
+<script  src="{% static 'js/jquery.min.min.js' %}"></script>
+
 </body>
 </html>

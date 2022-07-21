@@ -17,10 +17,7 @@ SECRET_KEY = 'django-insecure-#s9q-o0k4-dsl2+l5+7snwa9#0s-+^d!-(p_t^7u5jm5tyz(^e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = []
-
-ALLOWED_HOSTS = ['3.14.64.174']
-
+ALLOWED_HOSTS = ['*']#3.14.147.162
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
 
 
@@ -43,10 +41,12 @@ INSTALLED_APPS += [
     'departamentos',
     'documentos',
     'registro_hora_extra',
+    'ponto_qrcode',
     'core',
-    
+
+    #'django.contrib.humanize',
+    'qr_code',
     'bootstrap5',
-    'import_export'
 ]
 
 
@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -130,8 +131,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 
 # para poder usar arquivsos de media 

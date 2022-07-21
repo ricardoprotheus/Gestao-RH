@@ -1,11 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load humanize %} {% load customfilter %} 
 
-{% block title %} Index {% endblock %}
 
 {% load static %}
 
   {% block main %}
-    
         <div class="container-fluid">
             {% if user.is_authenticated %}
                 <p class="usuario">Usuário: <span class="text-success"> {{ usuario.funcionario.nome }}
@@ -29,7 +27,27 @@
             </p>
         </div>
         
-    </div>
-	</div>
+        <div class="row">
+            <a class="btn btn-primary"  id="scanner-link" aria-current="page" href="javascript:void(0)" data_url="{% url 'view-scanner' %}">QRCODE</a>
+        </div>
 
-    {% endblock %}
+{% endblock %}
+
+{% block ScriptBlock %}
+<!--PARTE DOS CRIPT PARA ABRIR WEBCAM E FAZER A BUSCA DO FUNCIONARIO-->
+<script>
+    $(function() {
+        $('#topNav .nav-link').each(function() {
+            var current = '{{ request.get_full_path | urlencode }}'
+            if (current == $(this).attr('href')) {
+                $(this).parent().addClass('active')
+            }
+        })
+        $('#scanner-link').click(function(){
+            uni_modal("QR Scanner", $(this).attr('data_url'))
+        })
+    })
+</script>
+<script>
+</script>
+{% endblock ScriptBlock %}

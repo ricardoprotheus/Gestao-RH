@@ -8,7 +8,6 @@ from django.views.generic import (
 from .models import Funcionario
 from .forms import ProfileForm
 from django.urls import reverse_lazy
-from .resources import FuncionarioResource
 
 class FuncionariosList(ListView):
     model = Funcionario
@@ -43,5 +42,3 @@ class FuncionariosCreate(CreateView):
         funcionario.user = User.objects.create(username=username)
         funcionario.save()
         return super(FuncionariosCreate, self).form_valid(form)
-    
-    
