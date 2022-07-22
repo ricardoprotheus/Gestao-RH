@@ -2,6 +2,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from .views.ponto_qrcode import view_scanner_bater_ponto, Bater_ponto_qrcode
 from .views.scanner_view import view_scanner
 from .views.save_funcionario import save_funcionario, view_card, view_details, manage_employee, delete_funcionario
 
@@ -16,5 +17,9 @@ urlpatterns = [
     path('view_details',view_details, name='scanned-code'),
     path('salvar-funcionario',save_funcionario, name='save-employee'),
     path('scanner/',view_scanner, name='view-scanner'),
+
+
+    path('scanner-qr/',view_scanner_bater_ponto, name='view_scanner_bater_ponto'),
+
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

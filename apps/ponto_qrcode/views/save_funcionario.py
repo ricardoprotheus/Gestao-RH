@@ -85,6 +85,7 @@ def view_details(request, code = None):
         messages.success(request, "Ponto batido com sucesso")
         return render(request, 'view_details.html', context)
 
+
 @login_required
 def delete_funcionario(request, pk=None):
     resp = { 'status' : 'failed', 'msg' : '' }
