@@ -25,6 +25,10 @@ def bate_ponto(request):
         nome = pontos.create(nome=nome)
         messages.success(request, "Ponto batido com sucesso")
 
+def scanner_qr(request):
+    context = context_data()
+    return render(request, 'ponto_qr_code/scanner_qrcode.html', context)
+
 
 #@login_required
 def view_scanner_bater_ponto(request):
