@@ -52,10 +52,10 @@
     const scanner = new Instascan.Scanner(args);
     scanner.addListener('scan', function(content) {
         // alert(content);
-        $('.modal').modal('hide')
+        $('.modal').modal('show') /*hide*/
         start_loader()
         setTimeout(() => {
-            uni_modal("Ver detalhes do funcionário", "{% url 'scanned-code' %}/" + content, 'modal-md')
+            uni_modal("Ver detalhes do funcionário", "{% url 'Bater_ponto_qrcode' %}/" + content, 'modal-md')
             scanner.stop()
         }, 500)
     });

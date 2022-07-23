@@ -18,10 +18,11 @@ urlpatterns = [
     path('salvar-funcionario',save_funcionario, name='save-employee'),
     path('scanner/',view_scanner, name='view-scanner'),
 
-
+    # Parte QR Code 
     path('scanner-qr/',view_scanner_bater_ponto, name='view_scanner_bater_ponto'),
+    path('scanner-detalhes/<str:code>/',Bater_ponto_qrcode, name='scanner_qrcode'),
     path('scanner-detalhes',Bater_ponto_qrcode, name='Bater_ponto_qrcode'),
-    path('scanner-qrcode',scanner_qr, name='scanner_qr'),
+    path('scanner-qrcode/',scanner_qr, name='scanner_qr'),
 
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

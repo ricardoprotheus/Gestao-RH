@@ -32,10 +32,11 @@ def logar(request):
         # existe um usuario e senha igual o que foi digitado?
         usuario = auth.authenticate(username=username, password=senha)
         if not usuario:
-            messages.add_message(request, constants.ERROR, 'Usuário ou senha incorreto!')
-            return redirect('/accounts/login/')
+            messages.add_message(request, constants.ERROR, 'Usuário ou senha incorreta!')
+            return redirect('view_scanner_bater_ponto')
         else:
             auth.login(request, usuario) #logar e ser redirecionado para a raiz do sistema
+            messages.add_message(request, constants.SUCCESS, f'Usuário "{request.user.username}" logado com suacesso!')
             return redirect('/')
             
 def logout_request(request):
